@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Get to Know Your Sewing Machine</title>
+
+  <style>
+    :root {
+      --green: #345f52;
+      --green-dark: #24483e;
+      --green-light: #e8f1eb;
+      --cream: #faf8f3;
+      --ink: #27312d;
+      --muted: #65716b;
+      --line: #d9e2da;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.5;
+    }
+
+    .lesson {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px 70px;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--green);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      line-height: 1.12;
+    }
+
+    .intro {
+      max-width: 680px;
+      margin: 0 0 30px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(290px, 0.85fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .diagram-card,
+    .info-card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 8px 28px rgba(34, 55, 43, 0.05);
+    }
+
+    .diagram-card {
+      padding: 22px;
+    }
+
+    .diagram-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .diagram-heading h2 {
+      margin: 0;
+      font-size: 1.15rem;
+    }
+
+    .diagram-heading span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .diagram-wrap {
+      position: relative;
+      width: 100%;
+      margin: 12px auto 0;
+      overflow: hidden;
+      border-radius: 14px;
+      background: #f5f7f2;
+    }
+
+    .diagram-wrap svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /*
+      Each hotspot is positioned as a percentage of the diagram.
+      These are the coordinates to adjust if we later change the drawing.
+    */
+    .hotspot {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      transform: translate(-50%, -50%);
+      border: 2px solid white;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: transform 0.15s, background 0.15s;
+    }
+
+    .hotspot:hover,
+    .hotspot:focus-visible {
+      transform: translate(-50%, -50%) scale(1.14);
+      background: var(--green-dark);
+      outline: 3px solid #b8d4c2;
+      outline-offset: 2px;
+    }
+
+    .hotspot.active {
+      background: #b76c3d;
+      box-shadow: 0 0 0 5px #f6ddc9;
+    }
+
+    .hotspot.found:not(.active) {
+      background: #789785;
+    }
+
+    .hotspot.found::after {
+      content: "✓";
+      position: absolute;
+      top: -7px;
+      right: -8px;
+      display: grid;
+      place-items: center;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      background: var(--green-dark);
+      color: white;
+      font-size: 0.7rem;
+    }
+
+    .diagram-note {
+      margin: 14px 2px 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .info-card {
+      padding: 28px;
+    }
+
+    .progress-label {
+      margin: 0 0 8px;
+      color: var(--green);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .progress-track {
+      height: 8px;
+      margin-bottom: 25px;
+      overflow: hidden;
+      border-radius: 100px;
+      background: var(--green-light);
+    }
+
+    .progress-fill {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--green);
+      transition: width 0.25s;
+    }
+
+    .part-number {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 5px 11px;
+      border-radius: 100px;
+      background: var(--green-light);
+      color: var(--green-dark);
+      font-size: 0.83rem;
+      font-weight: 700;
+    }
+
+    .info-card h2 {
+      margin: 0 0 12px;
+      font-size: 1.65rem;
+      line-height: 1.2;
+    }
+
+    .description {
+      margin: 0 0 14px;
+    }
+
+    .tip {
+      margin: 0 0 24px;
+      padding: 13px 15px;
+      border-left: 3px solid var(--green);
+      border-radius: 0 8px 8px 0;
+      background: #f3f7f2;
+      font-size: 0.93rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button.action {
+      min-height: 44px;
+      padding: 11px 17px;
+      border: 1px solid var(--green);
+      border-radius: 9px;
+      background: var(--green);
+      color: white;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button.action:hover {
+      background: var(--green-dark);
+    }
+
+    button.secondary {
+      background: white;
+      color: var(--green);
+    }
+
+    button.secondary:hover {
+      background: var(--green-light);
+    }
+
+    button:focus-visible {
+      outline: 3px solid #b8d4c2;
+      outline-offset: 3px;
+    }
+
+    .complete-message {
+      display: none;
+      margin-top: 18px;
+      color: var(--green-dark);
+      font-weight: 700;
+    }
+
+    .complete-message.show {
+      display: block;
+    }
+
+    @media (max-width: 780px) {
+      .lesson {
+        padding-top: 28px;
+      }
+
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .info-card {
+        padding: 23px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .diagram-card {
+        padding: 13px;
+      }
+
+      .diagram-heading {
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .hotspot {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="lesson">
+    <p class="eyebrow">Sewing 101 · Interactive lesson</p>
+    <h1>Get to know your sewing machine</h1>
+    <p class="intro">
+      Click each numbered spot on the machine to learn what that part does.
+      When you've found it on your own machine, select “Found it” to continue.
+    </p>
+
+    <div class="workspace">
+      <section class="diagram-card" aria-label="Interactive sewing machine diagram">
+        <div class="diagram-heading">
+          <h2>Sewing machine diagram</h2>
+          <span>Click a number to explore</span>
+        </div>
+
+        <div class="diagram-wrap">
+          <!-- A simple original SVG drawing, so no image upload is needed. -->
+          <svg viewBox="0 0 720 490" role="img"
+               aria-label="Illustration of a sewing machine with numbered interactive parts">
+            <rect width="720" height="490" fill="#f5f7f2"/>
+
+            <!-- Base and sewing surface -->
+            <rect x="65" y="361" width="594" height="66" rx="14"
+                  fill="#d8dfd7" stroke="#778a7d" stroke-width="4"/>
+            <rect x="76" y="356" width="570" height="18" rx="6"
+                  fill="#edf0e8" stroke="#778a7d" stroke-width="3"/>
+
+            <!-- Machine body and arm -->
+            <path d="M131 124
+                     Q131 101 156 101
+                     H558
+                     Q582 101 582 125
+                     V350
+                     H462
+                     V228
+                     H280
+                     V350
+                     H144
+                     Q131 350 131 336 Z"
+                  fill="#fffdf8" stroke="#647e6e" stroke-width="6"
+                  stroke-linejoin="round"/>
+
+            <!-- Inner throat opening -->
+            <path d="M280 228 H462 V350 H280 Z" fill="#f5f7f2"/>
+            <path d="M280 228 H462 V350"
+                  fill="none" stroke="#647e6e" stroke-width="6"
+                  stroke-linejoin="round"/>
+
+            <!-- Decorative machine details -->
+            <path d="M155 158 H558" stroke="#d6dfd5" stroke-width="5"/>
+            <path d="M478 195 H556" stroke="#d6dfd5" stroke-width="5"/>
+            <circle cx="530" cy="294" r="25"
+                    fill="#e5eadf" stroke="#647e6e" stroke-width="4"/>
+            <circle cx="530" cy="294" r="7" fill="#8da594"/>
+
+            <!-- Handwheel -->
+            <circle cx="602" cy="186" r="37"
+                    fill="#e2e9df" stroke="#647e6e" stroke-width="5"/>
+            <circle cx="602" cy="186" r="12"
+                    fill="#fffdf8" stroke="#647e6e" stroke-width="3"/>
+
+            <!-- Spool pin and thread spool -->
+            <line x1="235" y1="101" x2="235" y2="57"
+                  stroke="#647e6e" stroke-width="6"/>
+            <rect x="216" y="62" width="38" height="33" rx="7"
+                  fill="#b78d78" stroke="#7e695d" stroke-width="3"/>
+            <ellipse cx="235" cy="62" rx="19" ry="6" fill="#c9a38d"/>
+
+            <!-- Thread guide -->
+            <circle cx="342" cy="113" r="7"
+                    fill="#edf0e8" stroke="#647e6e" stroke-width="3"/>
+
+            <!-- Needle area -->
+            <rect x="233" y="244" width="22" height="76" rx="4"
+                  fill="#d9e1d8" stroke="#647e6e" stroke-width="3"/>
+            <line x1="244" y1="319" x2="244" y2="353"
+                  stroke="#4c5d54" stroke-width="4"/>
+            <path d="M214 343 H266 L259 358 H221 Z"
+                  fill="#bdcabe" stroke="#647e6e" stroke-width="3"/>
+
+            <!-- Needle plate and feed dogs -->
+            <rect x="190" y="356" width="111" height="17" rx="3"
+                  fill="#aebbb1" stroke="#647e6e" stroke-width="2"/>
+            <path d="M267 362 v6 M276 362 v6 M285 362 v6"
+                  stroke="#647e6e" stroke-width="2"/>
+
+            <!-- Bobbin cover -->
+            <rect x="319" y="353" width="68" height="21" rx="4"
+                  fill="#e2e9df" stroke="#647e6e" stroke-width="3"/>
+
+            <!-- Presser foot lever -->
+            <path d="M209 263 H191 V320"
+                  fill="none" stroke="#647e6e" stroke-width="5"
+                  stroke-linecap="round"/>
+
+            <!-- Control dial -->
+            <circle cx="174" cy="234" r="27"
+                    fill="#e2e9df" stroke="#647e6e" stroke-width="4"/>
+            <line x1="174" y1="214" x2="174" y2="222"
+                  stroke="#647e6e" stroke-width="3"/>
+          </svg>
+
+          <button class="hotspot" style="left:32.6%;top:15.5%"
+                  data-part="0" aria-label="Part 1: Spool pin">1</button>
+
+          <button class="hotspot" style="left:47.5%;top:24.2%"
+                  data-part="1" aria-label="Part 2: Thread guide">2</button>
+
+          <button class="hotspot" style="left:33.9%;top:64.5%"
+                  data-part="2" aria-label="Part 3: Needle">3</button>
+
+          <button class="hotspot" style="left:27.8%;top:72%"
+                  data-part="3" aria-label="Part 4: Presser foot">4</button>
+
+          <button class="hotspot" style="left:38.2%;top:76%"
+                  data-part="4" aria-label="Part 5: Feed dogs">5</button>
+
+          <button class="hotspot" style="left:49.2%;top:76%"
+                  data-part="5" aria-label="Part 6: Bobbin area">6</button>
+
+          <button class="hotspot" style="left:83.5%;top:37%"
+                  data-part="6" aria-label="Part 7: Handwheel">7</button>
+
+          <button class="hotspot" style="left:24.2%;top:48%"
+                  data-part="7" aria-label="Part 8: Stitch selector">8</button>
+        </div>
+
+        <p class="diagram-note">
+          Machines vary, so these parts may look or sit a little differently on yours.
+        </p>
+      </section>
+
+      <section class="info-card" aria-live="polite" aria-atomic="true">
+        <p class="progress-label" id="progressText">0 of 8 parts found</p>
+        <div class="progress-track" aria-hidden="true">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <span class="part-number" id="partNumber">Part 1 of 8</span>
+        <h2 id="partName">Spool pin</h2>
+        <p class="description" id="partDescription"></p>
+        <p class="tip" id="partTip"></p>
+
+        <div class="actions">
+          <button class="action" id="foundButton" type="button">
+            Found it — next part
+          </button>
+          <button class="action secondary" id="skipButton" type="button">
+            Show next part
+          </button>
+        </div>
+
+        <p class="complete-message" id="completeMessage">
+          You found all eight parts! You're ready for the next lesson.
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const parts = [
+      {
+        name: "Spool pin",
+        description: "This holds your spool of thread while you sew.",
+        tip: "Look on top of your machine. The spool pin may stand upright or lie horizontally."
+      },
+      {
+        name: "Thread guide",
+        description: "This helps direct the thread along its path from the spool toward the needle.",
+        tip: "Your machine may have several thread guides. Follow the numbered threading path printed on the machine if there is one."
+      },
+      {
+        name: "Needle",
+        description: "The needle carries the upper thread through the fabric to form a stitch.",
+        tip: "Look just above the sewing surface. Always turn the machine off before touching or changing the needle."
+      },
+      {
+        name: "Presser foot",
+        description: "This holds the fabric against the machine while you sew.",
+        tip: "It's the small metal or plastic piece around the needle. A lever behind the needle area raises and lowers it."
+      },
+      {
+        name: "Feed dogs",
+        description: "These little textured teeth move the fabric through the machine as you sew.",
+        tip: "Look underneath the presser foot. You can usually see the teeth poking up through the metal needle plate."
+      },
+      {
+        name: "Bobbin area",
+        description: "The bobbin holds the lower thread. The upper and lower threads work together to form stitches.",
+        tip: "Depending on your machine, the bobbin goes under a cover on top of the sewing surface or behind a cover on the front."
+      },
+      {
+        name: "Handwheel",
+        description: "Turning the handwheel moves the needle up and down by hand.",
+        tip: "It's usually the large wheel on the right side of your machine. Turn it toward you unless your manual says otherwise."
+      },
+      {
+        name: "Stitch selector",
+        description: "This lets you choose a stitch, such as a straight stitch or zigzag.",
+        tip: "Yours might be a dial like this one, or buttons and a screen on a computerized machine."
+      }
+    ];
+
+    const hotspots = [...document.querySelectorAll(".hotspot")];
+    const foundParts = new Set();
+
+    const partNumber = document.getElementById("partNumber");
+    const partName = document.getElementById("partName");
+    const partDescription = document.getElementById("partDescription");
+    const partTip = document.getElementById("partTip");
+    const progressText = document.getElementById("progressText");
+    const progressFill = document.getElementById("progressFill");
+    const foundButton = document.getElementById("foundButton");
+    const skipButton = document.getElementById("skipButton");
+    const completeMessage = document.getElementById("completeMessage");
+
+    let currentPart = 0;
+
+    function showPart(index) {
+      currentPart = index;
+      const part = parts[index];
+
+      partNumber.textContent = `Part ${index + 1} of ${parts.length}`;
+      partName.textContent = part.name;
+      partDescription.textContent = part.description;
+      partTip.innerHTML = `<strong>Find it:</strong> ${part.tip}`;
+
+      hotspots.forEach((button, buttonIndex) => {
+        button.classList.toggle("active", buttonIndex === index);
+        button.setAttribute("aria-pressed", buttonIndex === index ? "true" : "false");
+      });
+
+      foundButton.textContent = foundParts.has(index)
+        ? "Already found — next part"
+        : "Found it — next part";
+    }
+
+    function updateProgress() {
+      progressText.textContent = `${foundParts.size} of ${parts.length} parts found`;
+      progressFill.style.width = `${(foundParts.size / parts.length) * 100}%`;
+
+      hotspots.forEach((button, index) => {
+        button.classList.toggle("found", foundParts.has(index));
+      });
+
+      completeMessage.classList.toggle(
+        "show",
+        foundParts.size === parts.length
+      );
+    }
+
+    function nextPart() {
+      showPart((currentPart + 1) % parts.length);
+    }
+
+    hotspots.forEach(button => {
+      button.addEventListener("click", () => {
+        showPart(Number(button.dataset.part));
+      });
+    });
+
+    foundButton.addEventListener("click", () => {
+      foundParts.add(currentPart);
+      updateProgress();
+
+      if (foundParts.size !== parts.length) {
+        const nextUnfound = parts.findIndex(
+          (_, index) => !foundParts.has(index)
+        );
+        showPart(nextUnfound);
+      } else {
+        foundButton.textContent = "All parts found!";
+      }
+    });
+
+    skipButton.addEventListener("click", nextPart);
+
+    showPart(0);
+    updateProgress();
+  </script>
+</body>
+</html>
