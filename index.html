@@ -100,7 +100,7 @@
       margin: 12px auto 0;
       overflow: hidden;
       border-radius: 14px;
-      background: #f5f7f2;
+      background: #f7f8f5;
     }
 
     .diagram-wrap svg {
@@ -109,10 +109,6 @@
       height: auto;
     }
 
-    /*
-      Each hotspot is positioned as a percentage of the diagram.
-      These are the coordinates to adjust if we later change the drawing.
-    */
     .hotspot {
       position: absolute;
       display: grid;
@@ -313,6 +309,7 @@
   <main class="lesson">
     <p class="eyebrow">Sewing 101 · Interactive lesson</p>
     <h1>Get to know your sewing machine</h1>
+
     <p class="intro">
       Click each numbered spot on the machine to learn what that part does.
       When you've found it on your own machine, select “Found it” to continue.
@@ -326,115 +323,201 @@
         </div>
 
         <div class="diagram-wrap">
-          <!-- A simple original SVG drawing, so no image upload is needed. -->
-          <svg viewBox="0 0 720 490" role="img"
-               aria-label="Illustration of a sewing machine with numbered interactive parts">
-            <rect width="720" height="490" fill="#f5f7f2"/>
+          <svg
+            viewBox="0 0 720 490"
+            role="img"
+            aria-label="Front view of a sewing machine with an arm, needle, presser foot, controls, handwheel, and base"
+          >
+            <rect width="720" height="490" fill="#f7f8f5"/>
 
-            <!-- Base and sewing surface -->
-            <rect x="65" y="361" width="594" height="66" rx="14"
-                  fill="#d8dfd7" stroke="#778a7d" stroke-width="4"/>
-            <rect x="76" y="356" width="570" height="18" rx="6"
-                  fill="#edf0e8" stroke="#778a7d" stroke-width="3"/>
+            <!-- Machine base -->
+            <rect x="85" y="365" width="550" height="70" rx="19"
+                  fill="#dfe7df" stroke="#526d5d" stroke-width="5"/>
 
-            <!-- Machine body and arm -->
-            <path d="M131 124
-                     Q131 101 156 101
-                     H558
-                     Q582 101 582 125
-                     V350
-                     H462
-                     V228
-                     H280
-                     V350
-                     H144
-                     Q131 350 131 336 Z"
-                  fill="#fffdf8" stroke="#647e6e" stroke-width="6"
-                  stroke-linejoin="round"/>
+            <!-- Sewing surface -->
+            <rect x="100" y="351" width="520" height="25" rx="7"
+                  fill="#f8f8f2" stroke="#526d5d" stroke-width="4"/>
 
-            <!-- Inner throat opening -->
-            <path d="M280 228 H462 V350 H280 Z" fill="#f5f7f2"/>
-            <path d="M280 228 H462 V350"
-                  fill="none" stroke="#647e6e" stroke-width="6"
-                  stroke-linejoin="round"/>
+            <!-- Machine body, with open space below the arm -->
+            <path
+              d="M133 122
+                 Q133 103 154 103
+                 H538
+                 Q560 103 560 125
+                 V351
+                 H424
+                 V218
+                 H264
+                 V267
+                 Q264 283 247 283
+                 H154
+                 Q133 283 133 261
+                 Z"
+              fill="#fffdfa"
+              stroke="#526d5d"
+              stroke-width="5"
+              stroke-linejoin="round"
+            />
 
-            <!-- Decorative machine details -->
-            <path d="M155 158 H558" stroke="#d6dfd5" stroke-width="5"/>
-            <path d="M478 195 H556" stroke="#d6dfd5" stroke-width="5"/>
-            <circle cx="530" cy="294" r="25"
-                    fill="#e5eadf" stroke="#647e6e" stroke-width="4"/>
-            <circle cx="530" cy="294" r="7" fill="#8da594"/>
-
-            <!-- Handwheel -->
-            <circle cx="602" cy="186" r="37"
-                    fill="#e2e9df" stroke="#647e6e" stroke-width="5"/>
-            <circle cx="602" cy="186" r="12"
-                    fill="#fffdf8" stroke="#647e6e" stroke-width="3"/>
-
-            <!-- Spool pin and thread spool -->
-            <line x1="235" y1="101" x2="235" y2="57"
-                  stroke="#647e6e" stroke-width="6"/>
-            <rect x="216" y="62" width="38" height="33" rx="7"
-                  fill="#b78d78" stroke="#7e695d" stroke-width="3"/>
-            <ellipse cx="235" cy="62" rx="19" ry="6" fill="#c9a38d"/>
-
-            <!-- Thread guide -->
-            <circle cx="342" cy="113" r="7"
-                    fill="#edf0e8" stroke="#647e6e" stroke-width="3"/>
-
-            <!-- Needle area -->
-            <rect x="233" y="244" width="22" height="76" rx="4"
-                  fill="#d9e1d8" stroke="#647e6e" stroke-width="3"/>
-            <line x1="244" y1="319" x2="244" y2="353"
-                  stroke="#4c5d54" stroke-width="4"/>
-            <path d="M214 343 H266 L259 358 H221 Z"
-                  fill="#bdcabe" stroke="#647e6e" stroke-width="3"/>
-
-            <!-- Needle plate and feed dogs -->
-            <rect x="190" y="356" width="111" height="17" rx="3"
-                  fill="#aebbb1" stroke="#647e6e" stroke-width="2"/>
-            <path d="M267 362 v6 M276 362 v6 M285 362 v6"
-                  stroke="#647e6e" stroke-width="2"/>
-
-            <!-- Bobbin cover -->
-            <rect x="319" y="353" width="68" height="21" rx="4"
-                  fill="#e2e9df" stroke="#647e6e" stroke-width="3"/>
-
-            <!-- Presser foot lever -->
-            <path d="M209 263 H191 V320"
-                  fill="none" stroke="#647e6e" stroke-width="5"
+            <!-- Subtle line on the machine arm -->
+            <path d="M158 154 H527"
+                  stroke="#d4e0d5"
+                  stroke-width="5"
                   stroke-linecap="round"/>
 
-            <!-- Control dial -->
-            <circle cx="174" cy="234" r="27"
-                    fill="#e2e9df" stroke="#647e6e" stroke-width="4"/>
-            <line x1="174" y1="214" x2="174" y2="222"
-                  stroke="#647e6e" stroke-width="3"/>
+            <!-- Spool pin and spool -->
+            <line x1="251" y1="104" x2="251" y2="60"
+                  stroke="#526d5d" stroke-width="5"/>
+            <rect x="226" y="62" width="50" height="34" rx="7"
+                  fill="#c8987d" stroke="#846b5e" stroke-width="3"/>
+            <ellipse cx="251" cy="62" rx="25" ry="6"
+                     fill="#ddb096" stroke="#846b5e" stroke-width="2"/>
+
+            <!-- Thread guide -->
+            <path d="M322 103 V91 Q322 83 331 83 H344"
+                  fill="none"
+                  stroke="#526d5d"
+                  stroke-width="4"
+                  stroke-linecap="round"/>
+
+            <!-- Suggested thread path -->
+            <path d="M342 85 C300 98 202 111 189 151
+                     C180 177 197 196 190 225"
+                  fill="none"
+                  stroke="#aebeb0"
+                  stroke-width="2.5"
+                  stroke-dasharray="5 5"/>
+
+            <!-- Stitch selector -->
+            <circle cx="486" cy="166" r="31"
+                    fill="#e2eae2" stroke="#526d5d" stroke-width="4"/>
+            <circle cx="486" cy="166" r="20"
+                    fill="#fffdfa" stroke="#526d5d" stroke-width="2"/>
+            <line x1="486" y1="140" x2="486" y2="150"
+                  stroke="#526d5d"
+                  stroke-width="3"
+                  stroke-linecap="round"/>
+
+            <!-- Smaller front controls -->
+            <circle cx="485" cy="245" r="17"
+                    fill="#e2eae2" stroke="#526d5d" stroke-width="3"/>
+            <path d="M452 292 H520"
+                  stroke="#d4e0d5"
+                  stroke-width="4"
+                  stroke-linecap="round"/>
+
+            <!-- Handwheel on right side -->
+            <rect x="559" y="168" width="12" height="68"
+                  fill="#d4ded4" stroke="#526d5d" stroke-width="3"/>
+            <ellipse cx="578" cy="202" rx="24" ry="39"
+                     fill="#e2eae2" stroke="#526d5d" stroke-width="4"/>
+            <ellipse cx="578" cy="202" rx="10" ry="23"
+                     fill="#fffdfa" stroke="#526d5d" stroke-width="2"/>
+
+            <!-- Presser foot lever -->
+            <path d="M177 256 H162 V315"
+                  fill="none"
+                  stroke="#526d5d"
+                  stroke-width="5"
+                  stroke-linecap="round"/>
+
+            <!-- Needle bar and needle -->
+            <rect x="212" y="252" width="14" height="58" rx="3"
+                  fill="#c8d3c9" stroke="#526d5d" stroke-width="2"/>
+            <line x1="219" y1="309" x2="219" y2="352"
+                  stroke="#40544a" stroke-width="3"/>
+            <circle cx="219" cy="345" r="2.5" fill="#40544a"/>
+
+            <!-- Presser foot -->
+            <path d="M195 331 V350 H237 L244 355 H195"
+                  fill="none"
+                  stroke="#526d5d"
+                  stroke-width="5"
+                  stroke-linejoin="round"
+                  stroke-linecap="round"/>
+
+            <!-- Needle plate and feed dogs -->
+            <rect x="179" y="349" width="98" height="19" rx="3"
+                  fill="#c4d0c5" stroke="#526d5d" stroke-width="2"/>
+            <path d="M238 354 V363 M247 354 V363 M256 354 V363"
+                  stroke="#526d5d" stroke-width="2"/>
+
+            <!-- Bobbin cover -->
+            <rect x="297" y="350" width="79" height="19" rx="4"
+                  fill="#e7eee7" stroke="#526d5d" stroke-width="2.5"/>
+            <path d="M343 356 H357"
+                  stroke="#879d8c"
+                  stroke-width="2"
+                  stroke-linecap="round"/>
+
+            <!-- Seam on free arm -->
+            <line x1="405" y1="376" x2="405" y2="434"
+                  stroke="#b1c0b2" stroke-width="3"/>
           </svg>
 
-          <button class="hotspot" style="left:32.6%;top:15.5%"
-                  data-part="0" aria-label="Part 1: Spool pin">1</button>
+          <button
+            class="hotspot"
+            style="left:34.9%; top:15.5%"
+            data-part="0"
+            aria-label="Part 1: Spool pin"
+            type="button"
+          >1</button>
 
-          <button class="hotspot" style="left:47.5%;top:24.2%"
-                  data-part="1" aria-label="Part 2: Thread guide">2</button>
+          <button
+            class="hotspot"
+            style="left:46.4%; top:18.2%"
+            data-part="1"
+            aria-label="Part 2: Thread guide"
+            type="button"
+          >2</button>
 
-          <button class="hotspot" style="left:33.9%;top:64.5%"
-                  data-part="2" aria-label="Part 3: Needle">3</button>
+          <button
+            class="hotspot"
+            style="left:30.4%; top:65%"
+            data-part="2"
+            aria-label="Part 3: Needle"
+            type="button"
+          >3</button>
 
-          <button class="hotspot" style="left:27.8%;top:72%"
-                  data-part="3" aria-label="Part 4: Presser foot">4</button>
+          <button
+            class="hotspot"
+            style="left:27%; top:71%"
+            data-part="3"
+            aria-label="Part 4: Presser foot"
+            type="button"
+          >4</button>
 
-          <button class="hotspot" style="left:38.2%;top:76%"
-                  data-part="4" aria-label="Part 5: Feed dogs">5</button>
+          <button
+            class="hotspot"
+            style="left:35.3%; top:76%"
+            data-part="4"
+            aria-label="Part 5: Feed dogs"
+            type="button"
+          >5</button>
 
-          <button class="hotspot" style="left:49.2%;top:76%"
-                  data-part="5" aria-label="Part 6: Bobbin area">6</button>
+          <button
+            class="hotspot"
+            style="left:46.7%; top:76%"
+            data-part="5"
+            aria-label="Part 6: Bobbin area"
+            type="button"
+          >6</button>
 
-          <button class="hotspot" style="left:83.5%;top:37%"
-                  data-part="6" aria-label="Part 7: Handwheel">7</button>
+          <button
+            class="hotspot"
+            style="left:80.3%; top:41%"
+            data-part="6"
+            aria-label="Part 7: Handwheel"
+            type="button"
+          >7</button>
 
-          <button class="hotspot" style="left:24.2%;top:48%"
-                  data-part="7" aria-label="Part 8: Stitch selector">8</button>
+          <button
+            class="hotspot"
+            style="left:67.5%; top:34%"
+            data-part="7"
+            aria-label="Part 8: Stitch selector"
+            type="button"
+          >8</button>
         </div>
 
         <p class="diagram-note">
@@ -444,6 +527,7 @@
 
       <section class="info-card" aria-live="polite" aria-atomic="true">
         <p class="progress-label" id="progressText">0 of 8 parts found</p>
+
         <div class="progress-track" aria-hidden="true">
           <div class="progress-fill" id="progressFill"></div>
         </div>
@@ -457,6 +541,7 @@
           <button class="action" id="foundButton" type="button">
             Found it — next part
           </button>
+
           <button class="action secondary" id="skipButton" type="button">
             Show next part
           </button>
@@ -484,7 +569,7 @@
       {
         name: "Needle",
         description: "The needle carries the upper thread through the fabric to form a stitch.",
-        tip: "Look just above the sewing surface. Always turn the machine off before touching or changing the needle."
+        tip: "Look just above the sewing surface. Turn the machine off before touching or changing the needle."
       },
       {
         name: "Presser foot",
@@ -535,11 +620,16 @@
       partNumber.textContent = `Part ${index + 1} of ${parts.length}`;
       partName.textContent = part.name;
       partDescription.textContent = part.description;
-      partTip.innerHTML = `<strong>Find it:</strong> ${part.tip}`;
+
+      partTip.textContent = "";
+      const label = document.createElement("strong");
+      label.textContent = "Find it: ";
+      partTip.append(label, part.tip);
 
       hotspots.forEach((button, buttonIndex) => {
-        button.classList.toggle("active", buttonIndex === index);
-        button.setAttribute("aria-pressed", buttonIndex === index ? "true" : "false");
+        const isActive = buttonIndex === index;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-pressed", String(isActive));
       });
 
       foundButton.textContent = foundParts.has(index)
@@ -548,8 +638,11 @@
     }
 
     function updateProgress() {
-      progressText.textContent = `${foundParts.size} of ${parts.length} parts found`;
-      progressFill.style.width = `${(foundParts.size / parts.length) * 100}%`;
+      progressText.textContent =
+        `${foundParts.size} of ${parts.length} parts found`;
+
+      progressFill.style.width =
+        `${(foundParts.size / parts.length) * 100}%`;
 
       hotspots.forEach((button, index) => {
         button.classList.toggle("found", foundParts.has(index));
@@ -575,7 +668,7 @@
       foundParts.add(currentPart);
       updateProgress();
 
-      if (foundParts.size !== parts.length) {
+      if (foundParts.size < parts.length) {
         const nextUnfound = parts.findIndex(
           (_, index) => !foundParts.has(index)
         );
